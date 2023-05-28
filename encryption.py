@@ -2,6 +2,10 @@ import os
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms
 from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding as pd
+
 
 class Encrypt:
     def __init__(self):
@@ -41,3 +45,22 @@ class Encrypt:
         private_key = keys
         public_key = keys.public_key()
         return private_key, public_key
+
+    def public_serialization(self, public_key):
+        public_pem = 'keys/public.pem'
+        with open(public_pem, 'wb') as public_out:
+            public_out.write(public_key.public_bytes(encoding=serialization.Encoding.PEM,
+                                                     format=serialization.PublicFormat.SubjectPublicKeyInfo))
+
+    def private_serialization(self, private_key):
+        private_pem = 'private.pem'
+        with open(private_pem, 'wb') as private_out:
+            private_out.write(private_key.private_bytes(encoding=serialization.Encoding.PEM,
+                                                        format=serialization.PrivateFormat.TraditionalOpenSSL,
+                                                        encryption_algorithm=serialization.NoEncryption()))
+
+    def rsa_encription(self, text, public_key):
+        c_text = public_key.encrypt(text,
+                                    pd.OAEP(mgf=pd.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(),
+                                            label=None))
+        return c_text
