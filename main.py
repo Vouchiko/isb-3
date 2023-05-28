@@ -4,7 +4,7 @@ from encryption import Encrypt
 from decryption import Decrypt
 
 
-parser = argparse.ArgumentParser(descryption='encrypter')
+parser = argparse.ArgumentParser(description='encrypter')
 parser.add_argument('file', type=str, help='your file')
 parser.add_argument('mode', type=str, help='1 to encrypt or 2 to decrypt')
 parser.add_argument('private_key', type=str, help='only for decrypt')
@@ -57,10 +57,10 @@ if args.mode == "2":
     print('Decryption of data...')
     dec = Decrypt()
     try:
-        f4 = open(args.encript_sym_key, "rb")
+        f4 = open(args.encrypt_sym_key, "rb")
         k_c = f4.read()
 
-        f5 = open(args.encript_sym_nonce, "rb")
+        f5 = open(args.encrypt_sym_nonce, "rb")
         n_c = f5.read()
         private_key = dec.private_deserialization(args.private_key)
         k = dec.rsa_decryption(k_c, private_key)
