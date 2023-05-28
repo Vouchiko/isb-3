@@ -4,12 +4,12 @@ from encryption import Encrypt
 from decryption import Decrypt
 
 
-parser = argparse.ArgumentParser(description='encripter')
+parser = argparse.ArgumentParser(descryption='encrypter')
 parser.add_argument('file', type=str, help='your file')
-parser.add_argument('mode', type=str, help='1 to encript or 2 to decript')
-parser.add_argument('private_key', type=str, help='only for decript')
-parser.add_argument('encript_sym_key', type=str, help='only for decript')
-parser.add_argument('encript_sym_nonce', type=str, help='only for decript')
+parser.add_argument('mode', type=str, help='1 to encrypt or 2 to decrypt')
+parser.add_argument('private_key', type=str, help='only for decrypt')
+parser.add_argument('encrypt_sym_key', type=str, help='only for decrypt')
+parser.add_argument('encrypt_sym_nonce', type=str, help='only for decrypt')
 args = parser.parse_args()
 
 
@@ -39,8 +39,8 @@ if args.mode == "1":
         enc.public_serialization(keys[1])
         enc.private_serialization(keys[0])
 
-        rsa_k = enc.rsa_encription(k, keys[1])
-        rsa_n = enc.rsa_encription(n, keys[1])
+        rsa_k = enc.rsa_encryption(k, keys[1])
+        rsa_n = enc.rsa_encryption(n, keys[1])
         f4 = open("crypted_sym_key.txt", "wb")
         f4.write(rsa_k)
 
@@ -63,8 +63,8 @@ if args.mode == "2":
         f5 = open(args.encript_sym_nonce, "rb")
         n_c = f5.read()
         private_key = dec.private_deserialization(args.private_key)
-        k = dec.rsa_decription(k_c, private_key)
-        n = dec.rsa_decription(n_c, private_key)
+        k = dec.rsa_decryption(k_c, private_key)
+        n = dec.rsa_decryption(n_c, private_key)
 
         f6 = open("encrypt_text.txt", "rb")
         text = f6.read()
@@ -74,5 +74,9 @@ if args.mode == "2":
 
         f7 = open("decrypt_text.txt", "w")
         f7.write(d_text)
+        print('Complete!')
     except ValueError:
-        print("Some file is corrupted is damaged")
+        print("Some file is damaged")
+        print("Please recreate the keys")
+    except FileNotFoundError:
+        print ("Something wrong with file names. Check it out")
