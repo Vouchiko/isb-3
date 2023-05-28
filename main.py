@@ -7,10 +7,14 @@ from decryption import Decrypt
 parser = argparse.ArgumentParser(description='encripter')
 parser.add_argument('file', type=str, help='your file')
 parser.add_argument('mode', type=str, help='1 to encript or 2 to decript')
+parser.add_argument('private_key', type=str, help='only for decript')
+parser.add_argument('encript_sym_key', type=str, help='only for decript')
+parser.add_argument('encript_sym_nonce', type=str, help='only for decript')
 args = parser.parse_args()
 
 
 if args.mode == "1":
+    print('Encryption of data')
     enc = Encrypt()
     try:
         f_in = open(args.file)
@@ -48,3 +52,27 @@ if args.mode == "1":
     except FileNotFoundError:
         print("File not found")
 
+
+if args.mode == "2":
+    print('Decryption of data...')
+    dec = Decrypt()
+    try:
+        f4 = open(args.encript_sym_key, "rb")
+        k_c = f4.read()
+
+        f5 = open(args.encript_sym_nonce, "rb")
+        n_c = f5.read()
+        private_key = dec.private_deserialization(args.private_key)
+        k = dec.rsa_decription(k_c, private_key)
+        n = dec.rsa_decription(n_c, private_key)
+
+        f6 = open("encrypt_text.txt", "rb")
+        text = f6.read()
+        init = os.urandom(16)
+        d_text = dec.simmetric_decryptor(text, k, init, n)
+        d_text = dec.un_padding_t(d_text)
+
+        f7 = open("decrypt_text.txt", "w")
+        f7.write(d_text)
+    except ValueError:
+        print("Some file is corrupted is damaged")
