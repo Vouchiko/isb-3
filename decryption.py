@@ -32,7 +32,7 @@ class Decrypt:
         d_private_key = load_pem_private_key(private_bytes, password=None, )
         return d_private_key
 
-    def rsa_decription(self, c_text, private_key):
+    def rsa_decryption(self, c_text, private_key):
         dc_text = private_key.decrypt(c_text, pd.OAEP(mgf=pd.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(),
                                                       label=None))
         return dc_text

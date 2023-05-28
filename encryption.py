@@ -59,7 +59,7 @@ class Encrypt:
                                                         format=serialization.PrivateFormat.TraditionalOpenSSL,
                                                         encryption_algorithm=serialization.NoEncryption()))
 
-    def rsa_encription(self, text, public_key):
+    def rsa_encryption(self, text, public_key):
         c_text = public_key.encrypt(text,
                                     pd.OAEP(mgf=pd.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(),
                                             label=None))
