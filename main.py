@@ -1,8 +1,8 @@
 import os
 import argparse
+import logging
 from encryption import Encrypt
 from decryption import Decrypt
-
 
 parser = argparse.ArgumentParser(description='encrypter')
 parser.add_argument('file', type=str, help='your file')
@@ -12,27 +12,28 @@ parser.add_argument('encrypt_sym_key', type=str, help='only for decrypt')
 parser.add_argument('encrypt_sym_nonce', type=str, help='only for decrypt')
 args = parser.parse_args()
 
+logging.basicConfig(filename='example.log', level=logging.INFO)
+
 
 if args.mode == "1":
-    print('Generation...')
+    logging.info('Generation...')
     enc = Encrypt()
 
     k = enc.generation_key()
     n = enc.generation_nonce()
-    print('Key Serialization...')
+    logging.info('Key Serialization...')
     enc.key_serialization("Data/keys/key.txt", k)
-    print('Serialization of an additional parameter...')
+    logging.info('Serialization of an additional parameter...')
     enc.key_serialization("Data/keys/nonce.txt", n)
-    print('Complete!')
-
+    logging.info('Complete!')
 
 if args.mode == "2":
-    print('Encryption of data')
+    logging.info('Encryption of data')
     enc = Encrypt()
     try:
         with open(args.file) as f_in:
             s = f_in.read()
-            print('Data encryption...')
+            logging.info('Data encryption...')
         with open("Data/keys/key.txt", "rb") as f1, open("Data/keys/nonce.txt", "rb") as f2:
             k = f1.read()
             n = f2.read()
@@ -52,15 +53,14 @@ if args.mode == "2":
 
         with open("Data/Encryption/crypted_sym_nonce.txt", "wb") as f5:
             f5.write(rsa_n)
-        print('Complete!')
+        logging.info('Complete!')
     except NameError:
-        print("Wrong file name")
+        logging.error("Wrong file name")
     except FileNotFoundError:
-        print("File not found")
-
+        logging.error("File not found")
 
 if args.mode == "3":
-    print('Decryption of data...')
+    logging.info('Decryption of data...')
     dec = Decrypt()
     try:
         with open(args.encrypt_sym_key, "rb") as f4:
@@ -80,9 +80,9 @@ if args.mode == "3":
 
         with open("Data/Decryption/decrypt_text.txt", "w") as f7:
             f7.write(d_text)
-        print('Complete!')
+        logging.info('Decryption completed successfully!')
     except ValueError:
-        print("Some file is damaged")
-        print("Please recreate the keys")
+        logging.error("Some file is damaged")
+        logging.error("Please recreate the keys")
     except FileNotFoundError:
-        print("Something wrong with file names. Check it out")
+        logging.error("Something wrong with file names. Check it out")
