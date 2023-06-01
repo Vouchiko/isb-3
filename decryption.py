@@ -2,15 +2,10 @@ import logging
 
 from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives.serialization import load_pem_public_key, load_pem_private_key
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms
 from cryptography.hazmat.primitives.asymmetric import padding as pd
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import rsa
-
-
-'''
-This class provides methods for decrypting data
-'''
 
 
 class Decrypt:
@@ -93,3 +88,8 @@ class Decrypt:
         dc_text = private_key.decrypt(c_text, pd.OAEP(mgf=pd.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(),
                                                       label=None))
         return dc_text
+
+
+'''
+This class provides methods for decrypting data
+'''

@@ -7,10 +7,6 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding as pd
 
-'''
-This class provides methods for encrypting data
-'''
-
 
 class Encrypt:
     def __init__(self):
@@ -138,3 +134,8 @@ class Encrypt:
                                     pd.OAEP(mgf=pd.MGF1(algorithm=hashes.SHA256()), algorithm=hashes.SHA256(),
                                             label=None))
         return c_text
+
+
+'''
+This class provides methods for encrypting data
+'''
