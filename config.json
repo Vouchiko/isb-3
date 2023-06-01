@@ -1,0 +1,12 @@
+{
+  "key_file": "Data/keys/key.txt",
+  "nonce_file": "Data/keys/nonce.txt",
+  "encrypt_text_file": "Data/Encryption/encrypt_text.txt",
+  "encrypted_sym_key_file": "Data/Encryption/crypted_sym_key.txt",
+  "encrypted_sym_nonce_file": "Data/Encryption/crypted_sym_nonce.txt",
+  "decrypt_text_file": "Data/Decryption/decrypt_text.txt",
+  "main_text": "Data/crypt.txt",
+  "encrypt_symmetric_key": "Data/Encryption/crypted_sym_key.txt",
+  "encrypt_symmetric_nonce": "Data/Encryption/crypted_sym_nonce.txt",
+  "private_key": "Data/Encryption/private.pem"
+}
